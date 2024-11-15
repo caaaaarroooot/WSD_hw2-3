@@ -1,0 +1,37 @@
+{
+	"folders": {},
+	"connections": {
+		"mariaDB-1932b87a72e-691cd5e3b9421f3f": {
+			"provider": "mysql",
+			"driver": "mariaDB",
+			"name": "OSS24_22100575",
+			"save-password": true,
+			"configuration": {
+				"host": "walab.handong.edu",
+				"port": "3306",
+				"database": "OSS24_22100575",
+				"url": "jdbc:mariadb://walab.handong.edu:3306/OSS24_22100575",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}
