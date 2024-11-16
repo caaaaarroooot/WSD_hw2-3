@@ -3,7 +3,9 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/hw2-2/JSP/list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/hw2-2/JSP" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/hw2-2/JSP/practice_write_ok.jsp" value="file://$PROJECT_DIR$/src/main/webapp/hw2-2/JSP" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/hw2-2/JSP/view.jsp" value="file://$PROJECT_DIR$/src/main/webapp/hw2-2/JSP" />
       </map>
     </option>
   </component>

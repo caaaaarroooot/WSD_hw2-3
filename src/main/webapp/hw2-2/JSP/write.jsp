@@ -6,19 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Player</title>
-  <link rel="stylesheet" href="../CSS/my.css" />
-<%--  <%@ include file="../CSS/my.css"%>--%>
-<%--  <%@ include file="../CSS/add.css"%>--%>
-  <link rel="stylesheet" href="../CSS/add.css" />
-</head>
-<body>
-<img src="../assets/booticon.png" alt="Boot Icon" />
+<%@ include file="top.jsp"%>
+<div class="container">
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a href="${pageContext.request.contextPath}/" class="nav-link active" aria-current="page">Home</a>
+      </li>
+    </ul>
+  </header>
+</div>
+<%--<a href="list.jsp">--%>
+<%--  <img src="../assets/booticon.png" alt="Boot Icon" />--%>
+<%--</a>--%>
 <h1>Add Player</h1>
 <div class="formdiv">
   <form name="form1" class="formdiv" action="write_ok.jsp">

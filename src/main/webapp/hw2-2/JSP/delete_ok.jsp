@@ -1,4 +1,4 @@
-<%--
+<%@ page import="org.example.hw22.dao.PlayerDAO" %><%--
   Created by IntelliJ IDEA.
   User: ijiyun
   Date: 2024. 11. 9.
@@ -8,14 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String playerId = request.getParameter("id");
-    // playerId를 사용하여 삭제 작업 수행 등
+    if (playerId != null && !playerId.isEmpty()) {
+        int id = Integer.parseInt(playerId);
+        PlayerDAO playerDAO = new PlayerDAO();
+        playerDAO.deletePlayerById(id);
+        response.sendRedirect("list.jsp");
+        return;
+    }
 %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-    삭제할 id는 <%=playerId%>입니다<br>
-    <a href="index.jsp">index</a>
-</body>
-</html>
+

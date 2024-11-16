@@ -117,5 +117,6 @@ mainFootInput.addEventListener("input", () => {
 });
 
 function submitForm() {
-    document.form1.submit(); // 모달에서 Yes를 클릭할 때 폼 제출
+    document.form1.submit(); // 폼 제출
 }
+

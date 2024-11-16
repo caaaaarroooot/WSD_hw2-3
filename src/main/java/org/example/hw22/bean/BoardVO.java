@@ -16,6 +16,10 @@ public class BoardVO {
         this.content = content;
     }
 
+    public BoardVO() {
+
+    }
+
     public int getId() {
         return id;
     }

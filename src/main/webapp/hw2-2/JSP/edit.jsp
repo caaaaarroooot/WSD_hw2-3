@@ -1,59 +1,31 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ijiyun
-  Date: 2024. 11. 9.
-  Time: 오후 2:57
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Player</title>
-  <link rel="stylesheet" href="../CSS/my.css" />
-  <%--  <%@ include file="../CSS/my.css"%>--%>
-  <%--  <%@ include file="../CSS/add.css"%>--%>
-  <link rel="stylesheet" href="../CSS/add.css" />
-  <link
-          rel="canonical"
-          href="https://getbootstrap.com/docs/5.3/examples/dashboard/"
-  />
-  <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
-  />
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css"
-          rel="stylesheet"
-  />
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          crossorigin="anonymous"
-  />
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css"
-          rel="stylesheet"
-  />
-  <link
-          rel="mask-icon"
-          href="https://cdn.example.com/path/to/safari-pinned-tab.svg"
-          color="#712cf9"
-  />
-</head>
-<body>
-<img src="../assets/booticon.png" />
+<%@ include file="top.jsp" %>
+<div class="container">
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a href="${pageContext.request.contextPath}/" class="nav-link active" aria-current="page">Home</a>
+      </li>
+    </ul>
+  </header>
+</div>
 <h1>Edit Player</h1>
+<%
+  String idParam = request.getParameter("id");
+  int id = Integer.parseInt(idParam);
+  PlayerDAO playerDAO = new PlayerDAO();
+  PlayerVO player = playerDAO.getPlayerById(id);
+%>
 <div class="formdiv">
   <form name="form1" class="formdiv" action="edit_ok.jsp">
+    <input type="hidden" value="<%=player.getId()%>" id="id" name="id">
     <div class="innerDiv">
       Name<input
             class="inputText"
             type="text"
             name="name"
             id="name"
+            value="<%=player.getName()%>"
     />
       <div id="error-message-name" class="error-message">
         Name is required
@@ -66,6 +38,7 @@
             type="number"
             name="birthyear"
             id="birthyear"
+            value="<%=player.getBirthyear()%>"
     />
       <div id="error-message-birthyear" class="error-message">
         Birth year must be a valid year below 2024
@@ -78,6 +51,7 @@
             type="text"
             name="club"
             id="club"
+            value="<%=player.getClub()%>"
     />
       <div id="error-message-club" class="error-message">
         Club is required
@@ -89,6 +63,7 @@
             type="text"
             name="country"
             id="country"
+            value="<%=player.getCountry()%>"
     />
       <div id="error-message-country" class="error-message">
         Country must be at least 2 characters long
@@ -101,6 +76,7 @@
             type="text"
             name="position"
             id="position"
+            value="<%=player.getPosition()%>"
     />
       <div id="error-message-position" class="error-message">
         Position must be GK, DF, MF, or FW
@@ -112,6 +88,7 @@
             type="text"
             name="mainfoot"
             id="mainfoot"
+            value="<%=player.getMainfoot()%>"
     />
       <div id="error-message-mainfoot" class="error-message">
         Main foot is required
@@ -184,5 +161,4 @@
 </div>
 <script src="../JS/load.js" defer></script>
 <script src="../JS/edit.js" defer></script>
-</body>
-</html>
+<%@ include file="bottom.jsp" %>
