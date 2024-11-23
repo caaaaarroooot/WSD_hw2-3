@@ -4,7 +4,7 @@
   <header class="d-flex justify-content-center py-3">
     <ul class="nav nav-pills">
       <li class="nav-item">
-        <a href="${pageContext.request.contextPath}/" class="nav-link active" aria-current="page">Home</a>
+        <a href="./list.jsp" class="nav-link active" aria-current="page">Home</a>
       </li>
     </ul>
   </header>
@@ -16,9 +16,15 @@
   PlayerDAO playerDAO = new PlayerDAO();
   PlayerVO player = playerDAO.getPlayerById(id);
 %>
+<div style="display: flex; flex-direction: row" >
+  <div style="width: 300px; height: 700px">
+    <img src='../../upload/<%=player.getFilename()%>' alt="picture~" style="width: 300px; height: 300px">
+  </div>
 <div class="formdiv">
-  <form name="form1" class="formdiv" action="edit_ok.jsp">
-    <input type="hidden" value="<%=player.getId()%>" id="id" name="id">
+  <form name="form1" class="formdiv" action="edit_ok.jsp" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="sid" value="<%=player.getId()%>" />
+    <input type="hidden" name="existingFilename" value="<%=player.getFilename()%>">
+    <%System.out.println("existFilename: " + player.getFilename());%>
     <div class="innerDiv">
       Name<input
             class="inputText"
@@ -94,6 +100,7 @@
         Main foot is required
       </div>
     </div>
+    <div class="innerDiv"><input type="file" name="photo" value="<%=player.getFilename()%>"></div>
     <button
             type="button"
             id="btn"
@@ -103,6 +110,7 @@
     >
       수정
     </button>
+
     <div
             class="modal fade"
             id="exampleModal"
@@ -158,6 +166,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </form>
+</div>
 </div>
 <script src="../JS/load.js" defer></script>
 <script src="../JS/edit.js" defer></script>

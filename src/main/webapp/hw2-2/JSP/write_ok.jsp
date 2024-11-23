@@ -1,4 +1,6 @@
-<%@ page import="org.example.hw22.dao.PlayerDAO" %><%--
+<%@ page import="org.example.hw22.dao.PlayerDAO" %>
+<%@ page import="org.example.hw22.FileUpload" %>
+<%@ page import="org.example.hw22.bean.PlayerVO" %><%--
   Created by IntelliJ IDEA.
   User: ijiyun
   Date: 2024. 11. 9.
@@ -7,16 +9,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    request.setCharacterEncoding("UTF-8");  // 요청 인코딩 설정
-    String name = request.getParameter("name");
-    String birthyear = request.getParameter("birthyear");
-    String club = request.getParameter("club");
-    String country = request.getParameter("country");
-    String position = request.getParameter("position");
-    String mainfoot = request.getParameter("mainfoot");
+    request.setCharacterEncoding("UTF-8");
 
     PlayerDAO playerDAO = new PlayerDAO();
-    playerDAO.addPlayer(name, birthyear, club, country, position, mainfoot);
+    FileUpload upload = new FileUpload();
+    PlayerVO vo = upload.uploadFile(request);
+    if (vo == null) {
+        throw new RuntimeException("PlayerVO 객체 생성 실패: uploadFile(request) 결과가 null입니다.");
+    }
+    playerDAO.addPlayer(vo);
+
     response.sendRedirect("list.jsp");
 %>
 

@@ -23,65 +23,71 @@
       </li>
     </ul>
   </header>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">게시물을 삭제할까요?</div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-            Yes
-          </button>
-          <%
-            String idParam = request.getParameter("id");
-            int id = Integer.parseInt(idParam); // id 값을 정수로 변환
-            PlayerDAO playerDAO = new PlayerDAO();
-            PlayerVO player = playerDAO.getPlayerById(id);
-          %>
-          <script>
-            document.querySelector('.btn-primary').addEventListener('click', function() {
-              var playerId = '<%= id %>';  // 현재 페이지에서 id 값을 가져옴
-              window.location.href = 'delete_ok.jsp?id=' + playerId;
-            });
-          </script>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">게시물을 삭제할까요?</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+              Yes
+            </button>
+            <%
+              String idParam = request.getParameter("id");
+              int id = Integer.parseInt(idParam); // id 값을 정수로 변환
+              PlayerDAO playerDAO = new PlayerDAO();
+              PlayerVO player = playerDAO.getPlayerById(id);
+            %>
+            <script>
+              document.querySelector('.btn-primary').addEventListener('click', function() {
+                var playerId = '<%= id %>';  // 현재 페이지에서 id 값을 가져옴
+                window.location.href = 'delete_ok.jsp?id=' + playerId;
+              });
+            </script>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   <h1>Player Detail</h1>
-  <div class="formdiv">
-    <form name="form1" class="formdiv">
-      <% if (player != null) { %>
-      <div class="formdiv">
-        <form name="form1" class="formdiv">
-          <div class="innerDiv">
-            Name<input class="inputText" type="text" name="name" id="name" value="<%= player.getName() %>" readonly />
-          </div>
-          <div class="innerDiv">
-            Birth Year<input class="inputText" type="number" name="birthyear" id="birthyear" value="<%= player.getBirthyear() %>" readonly />
-          </div>
-          <div class="innerDiv">
-            Club<input class="inputText" type="text" name="club" id="club" value="<%= player.getClub() %>" readonly />
-          </div>
-          <div class="innerDiv">
-            Country<input class="inputText" type="text" name="country" id="country" value="<%= player.getCountry() %>" readonly />
-          </div>
-          <div class="innerDiv">
-            Position<input class="inputText" type="text" name="position" id="position" value="<%= player.getPosition() %>" readonly />
-          </div>
-          <div class="innerDiv">
-            Main Foot<input class="inputText" type="text" name="mainfoot" id="mainfoot" value="<%= player.getMainfoot() %>" readonly />
-          </div>
-        </form>
-      </div>
-      <% } else { %>
-      <p>해당 플레이어 정보를 찾을 수 없습니다.</p>
-      <% } %>
-    </form>
+  <div style="display: flex; flex-direction: row" >
+    <div style="width: 300px; height: 700px">
+      <img src='../../upload/<%=player.getFilename()%>' alt="picture~" style="width: 300px; height: 300px">
+    </div>
+    <div class="formdiv">
+      <form name="form1" class="formdiv">
+        <% if (player != null) { %>
+        <div class="formdiv">
+          <form name="form1" class="formdiv">
+            <div class="innerDiv">
+              Name<input class="inputText" type="text" name="name" id="name" value="<%= player.getName() %>" readonly />
+            </div>
+            <div class="innerDiv">
+              Birth Year<input class="inputText" type="number" name="birthyear" id="birthyear" value="<%= player.getBirthyear() %>" readonly />
+            </div>
+            <div class="innerDiv">
+              Club<input class="inputText" type="text" name="club" id="club" value="<%= player.getClub() %>" readonly />
+            </div>
+            <div class="innerDiv">
+              Country<input class="inputText" type="text" name="country" id="country" value="<%= player.getCountry() %>" readonly />
+            </div>
+            <div class="innerDiv">
+              Position<input class="inputText" type="text" name="position" id="position" value="<%= player.getPosition() %>" readonly />
+            </div>
+            <div class="innerDiv">
+              Main Foot<input class="inputText" type="text" name="mainfoot" id="mainfoot" value="<%= player.getMainfoot() %>" readonly />
+            </div>
+          </form>
+        </div>
+        <% } else { %>
+        <p>해당 플레이어 정보를 찾을 수 없습니다.</p>
+        <% } %>
+      </form>
+    </div>
   </div>
 </div>
 

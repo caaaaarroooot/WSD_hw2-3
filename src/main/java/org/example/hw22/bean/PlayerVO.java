@@ -8,8 +8,9 @@ public class PlayerVO {
     private String position;
     private String mainfoot;
     private int id;
+    private String filename;
 
-    public PlayerVO(int id, String name, String birthyear, String club, String country, String position, String mainfoot) {
+    public PlayerVO(int id, String name, String birthyear, String club, String country, String position, String mainfoot, String filename) {
         this.name = name;
         this.birthyear = birthyear;
         this.club = club;
@@ -17,9 +18,28 @@ public class PlayerVO {
         this.position = position;
         this.mainfoot = mainfoot;
         this.id = id;
+        this.filename = filename;
+    }
+
+    public PlayerVO(String name, String mainfoot, String position, String country, String club, String birthyear, String filename) {
+        this.filename = filename;
+        this.mainfoot = mainfoot;
+        this.position = position;
+        this.country = country;
+        this.club = club;
+        this.birthyear = birthyear;
+        this.name = name;
     }
 
     public PlayerVO() {
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public String getName() {

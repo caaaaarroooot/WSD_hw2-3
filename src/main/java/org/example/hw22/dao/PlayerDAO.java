@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDAO {
-    String PLAYER_BY_ID = "SELECT id, name, birthyear, club, country, position, mainfoot FROM Player WHERE id = ?";
-    String PLAYER_ALL = "SELECT id, name, birthyear, club, country, position, mainfoot FROM Player";
+    String PLAYER_BY_ID = "SELECT id, name, birthyear, club, country, position, mainfoot, filename FROM Player WHERE id = ?";
+    String PLAYER_ALL = "SELECT id, name, birthyear, club, country, position, mainfoot, filename FROM Player";
     String DELETE = "DELETE FROM Player WHERE id = ?";
-    String UPDATE = "UPDATE Player SET name = ?, birthyear = ?, club = ?, country = ?, position = ?, mainfoot = ? WHERE id = ?";
-    String INSERT = "INSERT INTO Player (name, birthyear, club, country, position, mainfoot) VALUES (?, ?, ?, ?, ?, ?)";
-    String PLAYER_BY_POSITION = "SELECT id, name, birthyear, club, country, position, mainfoot FROM Player WHERE position = ?";
+    String UPDATE = "UPDATE Player SET name = ?, birthyear = ?, club = ?, country = ?, position = ?, mainfoot = ?, filename = ? WHERE id = ?";
+    String INSERT = "INSERT INTO Player (name, birthyear, club, country, position, mainfoot, filename) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String PLAYER_BY_POSITION = "SELECT id, name, birthyear, club, country, position, mainfoot, filename FROM Player WHERE position = ?";
+    String Get_Photo = "SELECT filename FROM Player WHERE id = ?";
 
     public List<PlayerVO> getAllUsers() {
         List<PlayerVO> users = new ArrayList<>();
@@ -31,7 +32,7 @@ public class PlayerDAO {
                 user.setCountry(rs.getString("country"));
                 user.setPosition(rs.getString("position"));
                 user.setMainfoot(rs.getString("mainfoot"));
-
+                user.setFilename(rs.getString("filename"));
                 // List에 user 객체 추가
                 users.add(user);
             }
@@ -57,7 +58,8 @@ public class PlayerDAO {
                             rs.getString("club"),
                             rs.getString("country"),
                             rs.getString("position"),
-                            rs.getString("mainfoot")
+                            rs.getString("mainfoot"),
+                            rs.getString("filename")
                     );
                 }
             }
@@ -89,6 +91,9 @@ public class PlayerDAO {
     public void updatePlayer(PlayerVO player) {
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(UPDATE)) {
+            System.out.println("Player ID: " + player.getId());
+            System.out.println("Player Name: " + player.getName());
+            System.out.println("Player FileName: " + player.getFilename());
 
             // PreparedStatement에 값을 설정
             stmt.setString(1, player.getName());
@@ -97,7 +102,8 @@ public class PlayerDAO {
             stmt.setString(4, player.getCountry());
             stmt.setString(5, player.getPosition());
             stmt.setString(6, player.getMainfoot());
-            stmt.setInt(7, player.getId());
+            stmt.setString(7, player.getFilename());
+            stmt.setInt(8, player.getId());
 
             // 업데이트 실행
             int rowsAffected = stmt.executeUpdate();
@@ -113,29 +119,30 @@ public class PlayerDAO {
         }
     }
 
-    public void addPlayer(String name, String birthyear, String club, String country, String position, String mainfoot) {
+    public void addPlayer(PlayerVO playerVO) {
         try (Connection conn = JDBCUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(INSERT)) {
 
             // PreparedStatement에 값을 설정
-            stmt.setString(1, name);
-            stmt.setString(2, birthyear);
-            stmt.setString(3, club);
-            stmt.setString(4, country);
-            stmt.setString(5, position);
-            stmt.setString(6, mainfoot);
+            stmt.setString(1, playerVO.getName());
+            stmt.setString(2, playerVO.getBirthyear());
+            stmt.setString(3, playerVO.getClub());
+            stmt.setString(4, playerVO.getCountry());
+            stmt.setString(5, playerVO.getPosition());
+            stmt.setString(6, playerVO.getMainfoot());
+            stmt.setString(7, playerVO.getFilename());
 
             // INSERT 실행
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Player " + name + " was added.");
+                System.out.println("Player " + playerVO.getName() + " was added.");
             } else {
                 System.out.println("Failed to add the player.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error adding player: " + name, e);
+            throw new RuntimeException("Error adding player: " + playerVO.getName(), e);
         }
     }
 
@@ -167,4 +174,58 @@ public class PlayerDAO {
         }
         return players;
     }
+
+    public String getPhotoFilename(int sid) {
+        String filename = null;
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(Get_Photo)) {
+            pstmt.setInt(1, sid);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                filename = rs.getString("filename");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return filename;
+    }
+
+    public List<PlayerVO> getPlayersSortedBy(String sortBy) {
+        List<PlayerVO> players = new ArrayList<>();
+        String query = "SELECT * FROM Player"; // 기본 쿼리
+
+        // 정렬 기준에 따라 SQL 쿼리 수정
+        if ("name".equals(sortBy)) {
+            query += " ORDER BY name ASC";
+        } else if ("age".equals(sortBy)) {
+            query += " ORDER BY birthyear ASC";  // 나이 기준으로 정렬
+        } else if ("regdate_desc".equals(sortBy)) {
+            query += " ORDER BY regdate DESC";  // 등록일 기준 내림차순 정렬
+        }
+
+        // 쿼리 실행 코드 (예시)
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                PlayerVO player = new PlayerVO();
+                player.setId(rs.getInt("id"));
+                player.setCountry(rs.getString("country"));
+                player.setBirthyear(rs.getString("birthyear"));
+                player.setName(rs.getString("name"));
+                player.setClub(rs.getString("club"));
+                player.setPosition(rs.getString("position"));
+                player.setMainfoot(rs.getString("mainfoot"));
+                players.add(player);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return players;
+    }
+
 }

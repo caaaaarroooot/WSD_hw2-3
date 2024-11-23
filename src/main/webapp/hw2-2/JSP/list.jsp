@@ -11,12 +11,22 @@
         <div class="container d-flex f-direction-row justify-content-between">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/" class="nav-link active" aria-current="page">Home</a>
+                    <a href="./list.jsp?sort=name" class="nav-link active" aria-current="page">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="write.jsp" class="nav-link">Add</a>
                 </li>
+                <li class="nav-item">
+                    <a href="list.jsp?sort=name" class="nav-link">sort by name</a>
+                </li>
+                <li class="nav-item">
+                    <a href="list.jsp?sort=age" class="nav-link">sort by age</a>
+                </li>
+                <li class="nav-item">
+                    <a href="list.jsp?sort=regdate_desc" class="nav-link">sort by regdate desc</a>
+                </li>
             </ul>
+
             <form class="form-inline my-2 my-lg-0 d-flex f-direction-row" method="get" action="list.jsp">
                 <input class="form-control mr-sm-2" type="search" name="position" placeholder="Search by Position" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -44,10 +54,13 @@
 
                     // 검색 키워드 가져오기
                     String position = request.getParameter("position");
+                    String sortBy = request.getParameter("sort");
 
                     // 검색 조건에 따라 DAO 호출
                     if (position != null && !position.trim().isEmpty()) {
                         players = playerDAO.getPlayersByPosition(position);
+                    } else if (sortBy != null && !sortBy.trim().isEmpty()) {
+                        players = playerDAO.getPlayersSortedBy(sortBy);
                     } else {
                         players = playerDAO.getAllUsers();
                     }

@@ -11,7 +11,7 @@
   <header class="d-flex justify-content-center py-3">
     <ul class="nav nav-pills">
       <li class="nav-item">
-        <a href="${pageContext.request.contextPath}/" class="nav-link active" aria-current="page">Home</a>
+        <a href="./list.jsp" class="nav-link active" aria-current="page">Home</a>
       </li>
     </ul>
   </header>
@@ -21,7 +21,7 @@
 <%--</a>--%>
 <h1>Add Player</h1>
 <div class="formdiv">
-  <form name="form1" class="formdiv" action="write_ok.jsp">
+  <form name="form1" class="formdiv" action="write_ok.jsp" method="post" enctype="multipart/form-data">
     <div class="innerDiv">
       Name<input
             class="inputText"
@@ -91,6 +91,7 @@
         Main foot is required
       </div>
     </div>
+    <div class="innerDiv"><input type="file" name="photo"></div>
     <button
             type="button"
             id="btn"
